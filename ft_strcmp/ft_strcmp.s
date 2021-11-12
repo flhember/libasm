@@ -11,10 +11,6 @@ _ft_strcmp:
 loop:
 	mov		dl, byte[rdi + rcx]		; take one char of rdi (first arg)
 	mov		dh, byte[rsi + rcx]		; take one char of rsi (second arg)
-
-	cmp		dl, 0					; cmp if s1 is over
-	je		end						; then go end
-
 	cmp		dl, dh					; cmp if s1[cnt] == s2[cnt]
 	jne		end						; if jne (jump if not equal) go to end
 	inc		rcx						; incr counter

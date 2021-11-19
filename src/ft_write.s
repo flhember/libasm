@@ -8,6 +8,5 @@ _ft_write:
 	mov		rax, MACH_SYSCALL(WRITE)
 	syscall
 
-	cmp
 	leave
 	ret

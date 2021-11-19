@@ -24,7 +24,7 @@ int			main(int ac, char **av)
 
 		//printf("strdup = %s", s1);
 		//if (s2)
-			printf("ft_strdup = %s", s2);
+		printf("ft_strdup = %s", s2);
 		//printf("ft_strdup = %d\n", size);
 	}
 	return (0);

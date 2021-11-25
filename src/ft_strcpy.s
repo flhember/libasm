@@ -6,11 +6,11 @@ _ft_strcpy:
 	
 loop:
 	mov		dl, byte[rsi + rcx]		; take one char of rsi (seconde arg)
-	mov		byte[rdi + rcx], dl		; pute in rdi (first arg)
+	mov		byte[rdi + rcx], dl		; put in rdi (first arg)
 	inc		rcx						; incr counter
 	cmp		dl, byte 0				; cmp with \o
 	jne		loop					; if jne (jump if not equal) go to top of loop
 
 end:
-	mov		rax, rdi				; put res in rax (rax = value return)
+	mov		rax, rdi				; put res in rax (rax = return value)
 	ret

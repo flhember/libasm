@@ -1,21 +1,21 @@
 %define MACH_SYSCALL(nb) 	0x2000000 | nb
 %define	READ				3
+extern	___error
 
 section	.text
 		[GLOBAL _ft_read:]
 
 _ft_read:
-	mov		rax, MACH_SYSCALL(READ)
+	mov		rax, MACH_SYSCALL(READ)	; set syscall for read
 	syscall
+	jc		error					; if carry flag set, go to error 
+	ret
 
-	xor		rax, rax
-
-ft_strlen:
-	mov		dl, byte[rsi + rax]	; take one char of rdi (first arg)
-	cmp		dl, byte 0			; cmp with \o
-	je		end					; if je (jump if equal) go to end
-	inc		rax					; incr counter
-	call	ft_strlen			; return top of loop
-
-end:
+error:
+	mov		r8, rax					; keep errno value
+	push	rsp						; 
+	call	___error				; get address of errno
+	pop		rsp						;
+	mov		[rax], r8				; put errno value in pointer of errno
+	mov		rax, -1					; set return to -1
 	ret

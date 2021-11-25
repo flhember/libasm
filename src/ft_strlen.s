@@ -9,7 +9,7 @@ loop:
 	cmp		dl, byte 0			; cmp with \o 
 	je		end					; if je (jump if equal) go to end
 	inc		rax					; incr counter
-	call	loop				; return top of loop
+	jmp		loop				; return top of loop
 
 end:
 	ret

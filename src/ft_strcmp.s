@@ -1,35 +1,27 @@
-; Si s1 > s2 => 1
-; Si s1 < s2 => -1
-; Si s1 == s2 => 0
-
 section	.text
 		[GLOBAL _ft_strcmp:]
 
 _ft_strcmp:
-	xor		rcx, rcx				; set counter to 0
+	mov		dl, [rdi]		; take first char of rdi (first arg)
+	mov		dh, [rsi]		; take first char of rsi (second arg)
+	cmp		dl, 0			; check if str1 exist
+	jz		end				; else go to end
+	cmp		dh, 0			; check if str2 exist
+	jz		end				; else go to end
 	
 loop:
-	mov		dl, byte[rdi + rcx]		; take one char of rdi (first arg)
-	mov		dh, byte[rsi + rcx]		; take one char of rsi (second arg)
-	cmp		dl, dh					; cmp if s1[cnt] == s2[cnt]
-	jne		end						; if jne (jump if not equal) go to end
-	inc		rcx						; incr counter
-	call	loop					; go top of loop
+	mov		dl, [rdi]		; take one char of rdi (first arg)
+	mov		dh, [rsi]		; take one char of rsi (second arg)
+
+	cmp		dl, 0			; if s1 is finished
+	jz		end				; go end
+	cmp		dl, dh			; check if is equal
+	jne		end				; if jne (jump if not equal) go to end
+	inc		rdi				; incr pointer
+	inc		rsi				; incr pointer
+	jmp		loop			; go top of loop
 
 end:
-	cmp dl, dh						; cmp 2 last char of s1 and s2
-	jg	end_sup						; if dl > dh -> return 1
-	jl	end_inf						; if dl < dh -> retun -1
-	je	end_equ						; if dl == dh -> return 0
-
-end_sup:
-	mov		rax, 1
-	ret
-
-end_inf:
-	mov		rax, -1
-	ret
-
-end_equ:
-	mov		rax, 0
+	sub		dl, dh			; return ascii value of last char of s1 - last char of s2
+	movsx	rax, dl			; put res in rax
 	ret

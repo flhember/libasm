@@ -1,6 +1,6 @@
 extern 	_malloc
-extern	_strlen
-extern	_strcpy
+extern	_ft_strlen
+extern	_ft_strcpy
 extern ___error
 
 section	.text
@@ -8,29 +8,29 @@ section	.text
 
 _ft_strdup:
 	xor		rax, rax		; set return to 0
-	mov		r9, rdi
-	push r9
+	mov		r9, rdi			; save strcpy
+	push 	r9				; save it on stack
 
-;	push rdi
-	call	_strlen			; size of rdi
-;	pop rdi
+	call	_ft_strlen		; size of rdi
 
 	mov		r8, rax			; put size of str in r8
 	add		r8, 1			; add 1 of size for \0
-;	push rdi
 	mov		rdi, r8			; give size of malloc to malloc ft
 	call	_malloc
-;	pop rdi
-	cmp rax, rax
-	jz _end_error
-
-	pop	r9
-	mov		rsi, r9		; put str to cpy
+	jc		error			; if carry flag set, go to error
+	
+	pop	r9					; get r9 value back from the stack
+	mov		rsi, r9			; put str to cpy
 	mov		rdi, rax		; put pointer of malloc on first arg
-	call 	_strcpy
+	call 	_ft_strcpy
 
 	ret
 
-_end_error:
-	mov	rax, 0
+error:
+	mov		r8, rax			; keep errno value
+	push	rsp
+	call	___error		; get address of errno
+	pop		rsp				
+	mov		[rax], r8		; put errno value in pointer of errno
+	mov		rax, -1			; set return to -1
 	ret

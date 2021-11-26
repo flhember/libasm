@@ -22,6 +22,13 @@ loop:
 	jmp		loop			; go top of loop
 
 end:
-	sub		dl, dh			; return ascii value of last char of s1 - last char of s2
-	movsx	rax, dl			; put res in rax
+	xor		rax, rax
+	mov 	al, byte [rdi]
+	sub		al, byte [rsi]
+	jc 		overflow_return
+	ret
+
+overflow_return:
+	neg		al
+	neg		eax
 	ret
